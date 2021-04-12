@@ -24,7 +24,7 @@
         Header = @{
             Authorization = -join ("Basic ", $Authorization)
         }
-        Url    = "$Url/wp-json/wp/v2/"
+        Url    = $Url
     }
     $Auth
 }
