@@ -3,6 +3,9 @@
     param(
         [System.Collections.IDictionary] $Authorization
     )
-    $Uri = -join ($Authorization.Url, 'settings')
-    Invoke-RestMethod -Method get -Uri $Uri -Headers $Authorization.Header
+    $QueryParameters = [ordered] @{
+
+    }
+    Remove-EmptyValue -Hashtable $QueryParameters
+    Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/settings' -QueryParameter $QueryParameters -Headers $Authorization.Header
 }
