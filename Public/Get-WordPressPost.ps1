@@ -1,17 +1,65 @@
 ﻿function Get-WordPressPost {
-    [cmdletBinding()]
+    [cmdletBinding(DefaultParameterSetName = 'List')]
     param(
+        [Parameter(ParameterSetName = 'List')]
+        [Parameter(ParameterSetName = 'Id')]
         [System.Collections.IDictionary] $Authorization,
-        [int] $Id,
-        [switch] $List
+
+        [Parameter(ParameterSetName = 'Id')][int] $Id,
+        [Parameter(ParameterSetName = 'List')][int] $Include,
+        [Parameter(ParameterSetName = 'List')][int] $Exclude,
+        [Parameter(ParameterSetName = 'List')][int] $Page,
+        [Parameter(ParameterSetName = 'List')][int] $RecordsPerPage,
+        [Parameter(ParameterSetName = 'List')][string] $Search,
+        [Parameter(ParameterSetName = 'List')][string] $Author,
+        [Parameter(ParameterSetName = 'List')][string] $ExcludeAuthor,
+        [ValidateSet('publish', 'future', 'draft', 'pending', 'private')][Parameter(ParameterSetName = 'List')][string] $Status,
+        [Parameter(ParameterSetName = 'List')][string] $Slug,
+        [Parameter(ParameterSetName = 'List')][int[]] $Tags,
+        [Parameter(ParameterSetName = 'List')][int[]] $ExcludeTags,
+        [Parameter(ParameterSetName = 'List')][int[]] $Categories,
+        [Parameter(ParameterSetName = 'List')][int[]] $ExcludeCategories,
+        [Parameter(ParameterSetName = 'List')][ValidateSet('asc', 'desc')][string] $Order,
+        [Parameter(ParameterSetName = 'List')][ValidateSet('author', 'date', 'id', 'include', 'modified', 'parent', 'relevance', 'slug', 'include_slugs', 'title')][string] $OrderBy
     )
 
-    if ($List) {
-        $Uri = -join ($Authorization.Url, 'posts')
-        Invoke-RestMethod -Method get -Uri $Uri -ContentType "application/json" -Headers $Authorization.Header
-    }
     if ($Id) {
-        $Uri = -join ($Authorization.Url, 'posts/', $Id)
-        Invoke-RestMethod -Method get -Uri $Uri -ContentType "application/json" -Headers $Authorization.Header
+        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$id" -Headers $Authorization.Header -QueryParameter @{}
+    } else {
+        $QueryParameters = [ordered] @{
+            search         = $Search
+            author         = $Author
+            author_exclude = $ExcludeAuthor
+            status         = $Status
+            order          = $Order
+            orderby        = $OrderBy
+            slug           = $Slug
+        }
+        if ($Tags) {
+            $QueryParameters['tags'] = $Tags
+        }
+        if ($Categories) {
+            $QueryParameters['categories'] = $Categories
+        }
+        if ($ExcludeTags) {
+            $QueryParameters['tags_exclude'] = $ExludeTags
+        }
+        if ($ExcludeCategories) {
+            $QueryParameters['categories_exclude'] = $ExcludeCategories
+        }
+        if ($Include) {
+            $QueryParameters['include'] = $Include
+        }
+        if ($Exclude) {
+            $QueryParameters['exclude'] = $Exclude
+        }
+        if ($Page) {
+            $QueryParameters['page'] = $Page
+        }
+        if ($RecordsPerPage) {
+            $QueryParameters['per_page'] = $RecordsPerPage
+        }
+        Remove-EmptyValue -Hashtable $QueryParameters
+        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/posts' -QueryParameter $QueryParameters -Headers $Authorization.Header
     }
 }

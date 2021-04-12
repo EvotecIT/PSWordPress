@@ -22,12 +22,20 @@
 
 ## Documentation - Development
 
-PSWordpress uses Wordpress API.
+PSWordpress uses Wordpress API. I've added minimal amount of cmdlets that I need for myself. Feel free to create issues or PRs when needing something more.
 
 - [x] [Wordpress Rest API](https://developer.wordpress.org/rest-api/)
 - [X] [Wordpress API](https://developer.wordpress.com/docs/api/)
 
 ## Requirements
 
-This **PowerShell** module requires installation of [WP API SwaggerUI Wordpress Plugin](https://wordpress.org/plugins/wp-api-swaggerui/).
-Make sure it's installed before trying to use this **PowerShell** module functionality.
+This **PowerShell** module requires installation of WordPress Plugin before it can be used. The plugin is free.
+
+1. Install [WP API SwaggerUI Wordpress Plugin](https://wordpress.org/plugins/wp-api-swaggerui/) to allow WordPress API via Basic Authentication
+2. Install this PowerShell module
+
+```powershell
+Install-Module PSWordPress -Force
+```
+
+## Usage
