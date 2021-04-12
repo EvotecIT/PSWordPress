@@ -6,4 +6,4 @@ $Credentials = [System.Management.Automation.PSCredential]::new('PowerShell', $S
 # Authorize to Wordpress
 $Authorization = Connect-Wordpress -Credential $Credentials -Url 'https://evotec.xyz/'
 
-Get-WordPressSetting -Authorization $Authorization
+Set-WordPressSetting -Authorization $Authorization -DefaultPingStatus closed -Verbose -WhatIf
