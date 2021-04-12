@@ -20,19 +20,19 @@ $Configuration = @{
             # Copyright statement for this module
             Copyright            = "(c) 2011 - $((Get-Date).Year) Przemyslaw Klys @ Evotec. All rights reserved."
             # Description of the functionality provided by this module
-            Description          = 'Module that allows interacting with WordPress.'
+            Description          = 'Module that allows interacting with WordPress via its Rest API'
             # Minimum version of the Windows PowerShell engine required by this module
             PowerShellVersion    = '5.1'
             # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
             Tags                 = @('Windows', 'MacOS', 'Linux', 'Wordpress')
 
-            #IconUri              = 'https://evotec.xyz/wp-content/uploads/2018/12/PSWriteHTML.png'
+            IconUri              = 'https://evotec.xyz/wp-content/uploads/2021/04/WordPressLogo.png'
 
-            #ProjectUri           = 'https://github.com/EvotecIT/PSWriteHTML'
+            ProjectUri           = 'https://github.com/EvotecIT/PSWordPress'
 
-            #RequiredModules      = @(
-            #    @{ ModuleName = 'PSSharedGoods'; ModuleVersion = "Latest"; Guid = 'ee272aa8-baaa-4edf-9f45-b6d6f7d844fe' }
-            #)
+            RequiredModules      = @(
+                @{ ModuleName = 'PSSharedGoods'; ModuleVersion = "Latest"; Guid = 'ee272aa8-baaa-4edf-9f45-b6d6f7d844fe' }
+            )
         }
     }
     Options     = @{
@@ -140,7 +140,7 @@ $Configuration = @{
             SignMerged       = $true
             Releases         = $true
             ReleasesUnpacked = $false
-            RefreshPSD1Only  = $true
+            RefreshPSD1Only  = $false
         }
         BuildDocumentation = $false
         ImportModules      = @{
