@@ -1,5 +1,4 @@
 ﻿<p align="center">
-  <a href="https://dev.azure.com/evotecpl/PSWordpress/_build/latest?definitionId=3"><img src="https://dev.azure.com/evotecpl/PSWordpress/_apis/build/status/EvotecIT.PSWordpress"></a>
   <a href="https://www.powershellgallery.com/packages/PSWordpress"><img src="https://img.shields.io/powershellgallery/v/PSWordpress.svg"></a>
   <a href="https://www.powershellgallery.com/packages/PSWordpress"><img src="https://img.shields.io/powershellgallery/vpre/PSWordpress.svg?label=powershell%20gallery%20preview&colorB=yellow"></a>
   <a href="https://github.com/EvotecIT/PSWordpress"><img src="https://img.shields.io/github/license/EvotecIT/PSWordpress.svg"></a>
