@@ -44,5 +44,9 @@
         $QueryParameters['menu_order'] = $MenuOrder
     }
     Remove-EmptyValue -Hashtable $QueryParameters
-    Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/pages' -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
+    if ($QueryParameters.Keys.Count -gt 0) {
+        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/pages' -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
+    } else {
+        Write-Warning "Set-WordPressSetting - parameters not provided. Skipping."
+    }
 }
