@@ -19,7 +19,7 @@
 
 # PSWordPress - PowerShell Module
 
-**PSWordPress** is PowerShell Module that allows interacting with WordPress using PowerShell via Rest API. It allows to **list**, **create**, **edit** or **remove** posts, pages etc.
+**PSWordPress** is PowerShell Module that allows interacting with WordPress using PowerShell via Rest API. It allows to **list**, **create**, **edit** or **remove** posts, pages, etc.
 
 ## Documentation - Development
 
