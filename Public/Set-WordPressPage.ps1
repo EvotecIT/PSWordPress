@@ -1,4 +1,4 @@
-﻿function Set-WordPressPost {
+﻿function Set-WordPressPage {
     [cmdletBinding(SupportsShouldProcess)]
     param(
         [System.Collections.IDictionary] $Authorization,
@@ -7,6 +7,7 @@
         [string] $Slug,
         [ValidateSet('publish', 'future', 'draft', 'pending', 'private')][string] $Status,
         [string] $Title,
+        [int] $Parent,
         [string] $Password,
         [string] $Content,
         [int] $Author,
@@ -14,12 +15,9 @@
         [int] $FeaturedMedia,
         [ValidateSet('open', 'closed')][string] $CommentStatus,
         [ValidateSet('open', 'closed')][string] $PingStatus,
-        [ValidateSet('standard', 'aside', 'chat', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio')][string] $Format,
         [string] $Meta,
-        [nullable[bool]] $Sticky,
-        [int[]] $Tags,
-        [int[]] $Categories
-
+        [string] $Template,
+        [int] $MenuOrder
     )
     $QueryParameters = [ordered] @{
         title          = $Title
@@ -31,15 +29,11 @@
         excerpt        = $Excerpt
         comment_status = $CommentStatus
         ping_status    = $PingStatus
-        format         = $Format
         meta           = $Meta
+        template       = $Template
     }
-
-    if ($Tags) {
-        $QueryParameters['tags'] = $Tags
-    }
-    if ($Categories) {
-        $QueryParameters['categories'] = $Categories
+    if ($Parent) {
+        $QueryParameters['parent'] = $Parent
     }
     if ($FeaturedMedia) {
         $QueryParameters['featured_media'] = $FeaturedMedia
@@ -47,10 +41,13 @@
     if ($Author) {
         $QueryParameters['author'] = $Author
     }
+    if ($MenuOrder) {
+        $QueryParameters['menu_order'] = $MenuOrder
+    }
     Remove-EmptyValue -Hashtable $QueryParameters
     if ($QueryParameters.Keys.Count -gt 0) {
-        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
+        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/pages/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
     } else {
-        Write-Warning "Set-WordPressPost - parameters not provided. Skipping."
+        Write-Warning "Set-WordPressPage - parameters not provided. Skipping."
     }
 }

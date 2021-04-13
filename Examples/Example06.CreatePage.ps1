@@ -6,4 +6,9 @@ $Credentials = [System.Management.Automation.PSCredential]::new('PowerShell', $S
 # Authorize to Wordpress
 $Authorization = Connect-Wordpress -Credential $Credentials -Url 'https://evotec.xyz/'
 
-New-WordPressPage -Authorization $Authorization -Verbose -Title 'This is a title' -Content '<p> This is content with large </p>'
+$NewPage = New-WordPressPage -Authorization $Authorization -Verbose -Title 'This is a title' -Content '<p> This is content with large </p>' -WhatIf
+
+# Lets update the page we just created
+if ($NewPage.Id) {
+    Set-WordPressPage -Authorization $Authorization -Id $NewPage.Id -Title 'Changing Page Title' -WhatIf
+}
