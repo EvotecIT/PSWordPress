@@ -1,7 +1,7 @@
 ﻿function Remove-WordPressPost {
     [cmdletBinding(SupportsShouldProcess)]
     param(
-        [System.Collections.IDictionary] $Authorization,
+        [Parameter(Mandatory)][System.Collections.IDictionary] $Authorization,
         [Parameter(Mandatory)][int] $Id,
         [switch] $Force
     )

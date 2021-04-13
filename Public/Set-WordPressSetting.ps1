@@ -1,7 +1,7 @@
 ﻿function Set-WordPressSetting {
     [cmdletBinding(SupportsShouldProcess)]
     param(
-        [System.Collections.IDictionary] $Authorization,
+        [Parameter(Mandatory)][System.Collections.IDictionary] $Authorization,
         [string] $Title,
         [string] $Description,
         [string] $Url,

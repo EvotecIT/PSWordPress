@@ -1,7 +1,7 @@
 ﻿function Set-WordPressPage {
     [cmdletBinding(SupportsShouldProcess)]
     param(
-        [System.Collections.IDictionary] $Authorization,
+        [Parameter(Mandatory)][System.Collections.IDictionary] $Authorization,
         [Parameter(Mandatory)][int] $Id,
         [string] $Date,
         [string] $Slug,

@@ -1,7 +1,7 @@
 ﻿function New-WordPressPost {
     [cmdletBinding(SupportsShouldProcess)]
     param(
-        [System.Collections.IDictionary] $Authorization,
+        [Parameter(Mandatory)][System.Collections.IDictionary] $Authorization,
         [string] $Date,
         [string] $Slug,
         [ValidateSet('publish', 'future', 'draft', 'pending', 'private')][string] $Status,

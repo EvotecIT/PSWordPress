@@ -1,7 +1,7 @@
 ﻿function Get-WordPressSetting {
     [cmdletBinding()]
     param(
-        [System.Collections.IDictionary] $Authorization
+        [Parameter(Mandatory)][System.Collections.IDictionary] $Authorization
     )
     $QueryParameters = [ordered] @{
 

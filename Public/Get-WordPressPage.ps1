@@ -1,11 +1,15 @@
 ﻿function Get-WordPressPage {
     [cmdletBinding(DefaultParameterSetName = 'List')]
     param(
-        [Parameter(ParameterSetName = 'List')]
-        [Parameter(ParameterSetName = 'Id')]
+        [Parameter(ParameterSetName = 'List', Mandatory)]
+        [Parameter(ParameterSetName = 'Id', Mandatory)]
         [System.Collections.IDictionary] $Authorization,
 
         [Parameter(ParameterSetName = 'Id')][int] $Id,
+
+        [Parameter(ParameterSetName = 'Id')]
+        [Parameter(ParameterSetName = 'List')]
+        [ValidateSet('edit', 'view')][string[]] $Context,
         [Parameter(ParameterSetName = 'List')][int] $Include,
         [Parameter(ParameterSetName = 'List')][int] $Exclude,
         [Parameter(ParameterSetName = 'List')][int] $Page,
@@ -13,7 +17,7 @@
         [Parameter(ParameterSetName = 'List')][string] $Search,
         [Parameter(ParameterSetName = 'List')][string] $Author,
         [Parameter(ParameterSetName = 'List')][string] $ExcludeAuthor,
-        [ValidateSet('publish', 'future', 'draft', 'pending', 'private')][Parameter(ParameterSetName = 'List')][string] $Status,
+        [ValidateSet('publish', 'future', 'draft', 'pending', 'private')][Parameter(ParameterSetName = 'List')][string[]] $Status,
         [Parameter(ParameterSetName = 'List')][string] $Slug,
         [Parameter(ParameterSetName = 'List')][int[]] $Tags,
         [Parameter(ParameterSetName = 'List')][int[]] $ExcludeTags,
@@ -34,6 +38,7 @@
             order          = $Order
             orderby        = $OrderBy
             slug           = $Slug
+            context        = $Context
         }
         if ($Tags) {
             $QueryParameters['tags'] = $Tags

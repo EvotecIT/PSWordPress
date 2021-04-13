@@ -1,8 +1,8 @@
 ﻿function Get-WordPressTag {
     [cmdletBinding(DefaultParameterSetName = 'List')]
     param(
-        [Parameter(ParameterSetName = 'List')]
-        [Parameter(ParameterSetName = 'Id')]
+        [Parameter(ParameterSetName = 'List', Mandatory)]
+        [Parameter(ParameterSetName = 'Id', Mandatory)]
         [System.Collections.IDictionary] $Authorization,
 
         [Parameter(ParameterSetName = 'Id')][int[]] $Id,
