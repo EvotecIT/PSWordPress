@@ -1,4 +1,4 @@
-﻿function Invoke-RestApi {
+﻿function Invoke-WordpressRestApi {
     [cmdletBinding(SupportsShouldProcess)]
     param(
         [alias('PrimaryUri')][uri] $BaseUri,
@@ -12,7 +12,7 @@
     )
 
     if ($Authorization.Error) {
-        Write-Warning "Invoke-RestApi - Authorization error. Skipping."
+        Write-Warning "Invoke-WordpressRestApi - Authorization error. Skipping."
         return
     }
     $RestSplat = @{
@@ -32,7 +32,7 @@
     $ProgressPreference = 'SilentlyContinue'
     if ($PSCmdlet.ShouldProcess("$($RestSplat.Uri)", "Invoking query with $Method")) {
         try {
-            Write-Verbose -Message "Invoke-RestApi - Querying $($RestSplat.Uri) method $Method"
+            Write-Verbose -Message "Invoke-WordpressRestApi - Querying $($RestSplat.Uri) method $Method"
             if ($Method -eq 'GET') {
                 if (-not ($QueryParameter.Contains('page'))) {
                     $AllResults = @()
@@ -45,9 +45,9 @@
                         $AllResults += $Result
                         if (-not $TotalPages) {
                             $TotalPages = [int]$Response.Headers['X-WP-TotalPages']
-                            #Write-Verbose "Invoke-RestApi - Total pages to retrieve: $TotalPages"
+                            #Write-Verbose "Invoke-WordpressRestApi - Total pages to retrieve: $TotalPages"
                         }
-                        Write-Verbose "Invoke-RestApi - Querying $($RestSplat.Uri) method $Method [Retrieved page $Page of $TotalPages]"
+                        Write-Verbose "Invoke-WordpressRestApi - Querying $($RestSplat.Uri) method $Method [Retrieved page $Page of $TotalPages]"
                         $Page++
                     } while ($Page -le $TotalPages)
                     $ProgressPreference = $TempProgressPreference
