@@ -28,28 +28,48 @@
     } else {
         $RestSplat.Uri = Join-UriQuery -QueryParameter $QueryParameter -BaseUri $BaseUri -RelativeOrAbsoluteUri $RelativeOrAbsoluteUri
     }
+    $TempProgressPreference = $ProgressPreference
+    $ProgressPreference = 'SilentlyContinue'
     if ($PSCmdlet.ShouldProcess("$($RestSplat.Uri)", "Invoking query with $Method")) {
         try {
-            Write-Verbose "Invoke-RestApi - Querying $($RestSplat.Uri) method $Method"
-            $OutputQuery = Invoke-RestMethod @RestSplat -Verbose:$false
-            if ($Method -in 'GET') {
-                if ($OutputQuery) {
-                    $OutputQuery
+            Write-Verbose -Message "Invoke-RestApi - Querying $($RestSplat.Uri) method $Method"
+            if ($Method -eq 'GET') {
+                if (-not ($QueryParameter.Contains('page'))) {
+                    $AllResults = @()
+                    $Page = 1
+                    do {
+                        $CurrentQuery = $QueryParameter + @{ page = $Page }
+                        $RestSplat.Uri = Join-UriQuery -QueryParameter $CurrentQuery -BaseUri $BaseUri -RelativeOrAbsoluteUri $RelativeOrAbsoluteUri
+                        $Response = Invoke-WebRequest @RestSplat -Verbose:$false
+                        $Result = $Response.Content | ConvertFrom-Json
+                        $AllResults += $Result
+                        if (-not $TotalPages) {
+                            $TotalPages = [int]$Response.Headers['X-WP-TotalPages']
+                            #Write-Verbose "Invoke-RestApi - Total pages to retrieve: $TotalPages"
+                        }
+                        Write-Verbose "Invoke-RestApi - Querying $($RestSplat.Uri) method $Method [Retrieved page $Page of $TotalPages]"
+                        $Page++
+                    } while ($Page -le $TotalPages)
+                    $ProgressPreference = $TempProgressPreference
+                    return $AllResults
+                } else {
+                    $Response = Invoke-WebRequest @RestSplat -Verbose:$false
+                    $ProgressPreference = $TempProgressPreference
+                    $Result = $Response.Content | ConvertFrom-Json
+                    return $Result
                 }
-
-                <#
-            if ($OutputQuery.'@odata.nextLink') {
-                $RestSplat.Uri = $OutputQuery.'@odata.nextLink'
-                $MoreData = Invoke-RestApi @RestSplat -FullUri
-                if ($MoreData) {
-                    $MoreData
-                }
-            }
-            #>
-            } elseif ($Method -in 'POST') {
-                $OutputQuery
             } else {
-                return $true
+                $Response = Invoke-WebRequest @RestSplat -Verbose:$false
+                $ProgressPreference = $TempProgressPreference
+                $Result = [PSCustomObject]@{
+                    Body    = $Response.Content | ConvertFrom-Json
+                    Headers = $Response.Headers
+                }
+                if ($Method -eq 'GET' -or $Method -eq 'POST') {
+                    return $Result
+                } else {
+                    return $true
+                }
             }
         } catch {
             $RestError = $_.ErrorDetails.Message
