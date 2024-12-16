@@ -9,5 +9,5 @@
     if ($Force) {
         $QueryParameters['force'] = $Force.IsPresent
     }
-    Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method DELETE
+    Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method DELETE
 }

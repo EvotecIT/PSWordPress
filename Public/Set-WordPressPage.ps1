@@ -46,7 +46,7 @@
     }
     Remove-EmptyValue -Hashtable $QueryParameters
     if ($QueryParameters.Keys.Count -gt 0) {
-        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/pages/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
+        Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/pages/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
     } else {
         Write-Warning "Set-WordPressPage - parameters not provided. Skipping."
     }

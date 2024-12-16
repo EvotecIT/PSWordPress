@@ -21,7 +21,7 @@
     )
     if ($Id) {
         foreach ($I in $Id) {
-            Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/categories/$I" -Headers $Authorization.Header -QueryParameter @{}
+            Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/categories/$I" -Headers $Authorization.Header -QueryParameter @{}
         }
     } else {
         $QueryParameters = [ordered] @{
@@ -46,6 +46,6 @@
             $QueryParameters['per_page'] = $RecordsPerPage
         }
         Remove-EmptyValue -Hashtable $QueryParameters
-        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/categories' -QueryParameter $QueryParameters -Headers $Authorization.Header
+        Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/categories' -QueryParameter $QueryParameters -Headers $Authorization.Header
     }
 }

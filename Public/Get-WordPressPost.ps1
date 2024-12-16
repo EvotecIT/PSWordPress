@@ -29,7 +29,7 @@
     )
 
     if ($Id) {
-        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$id" -Headers $Authorization.Header -QueryParameter @{}
+        Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$id" -Headers $Authorization.Header -QueryParameter @{}
     } else {
         $QueryParameters = [ordered] @{
             search         = $Search
@@ -66,6 +66,6 @@
             $QueryParameters['per_page'] = $RecordsPerPage
         }
         Remove-EmptyValue -Hashtable $QueryParameters
-        Invoke-RestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/posts' -QueryParameter $QueryParameters -Headers $Authorization.Header
+        Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri 'wp-json/wp/v2/posts' -QueryParameter $QueryParameters -Headers $Authorization.Header
     }
 }
