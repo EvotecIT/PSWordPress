@@ -8,7 +8,7 @@
     Description          = 'Module that allows interacting with WordPress via its Rest API'
     FunctionsToExport    = @('Connect-Wordpress', 'Get-WordPressCategory', 'Get-WordPressPage', 'Get-WordPressPost', 'Get-WordPressSetting', 'Get-WordPressTag', 'New-WordPressPage', 'New-WordPressPost', 'Remove-WordPressPage', 'Remove-WordPressPost', 'Set-WordPressPage', 'Set-WordPressPost', 'Set-WordPressSetting')
     GUID                 = '412368da-4507-447c-8525-5cf7628b7ae6'
-    ModuleVersion        = '0.0.2'
+    ModuleVersion        = '0.0.3'
     PowerShellVersion    = '5.1'
     PrivateData          = @{
         PSData = @{
