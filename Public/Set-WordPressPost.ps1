@@ -27,14 +27,17 @@
         slug           = $Slug
         status         = $Status
         password       = $Password
-        content        = $Content
+        #content        = $Content
         excerpt        = $Excerpt
         comment_status = $CommentStatus
         ping_status    = $PingStatus
         format         = $Format
         meta           = $Meta
     }
-
+    $BodyParameters = [ordered] @{
+        content = $Content
+    }
+    Remove-EmptyValue -Hashtable $BodyParameters
     if ($Tags) {
         $QueryParameters['tags'] = $Tags
     }
@@ -48,8 +51,17 @@
         $QueryParameters['author'] = $Author
     }
     Remove-EmptyValue -Hashtable $QueryParameters
-    if ($QueryParameters.Keys.Count -gt 0) {
-        Invoke-WordpressRestApi -PrimaryUri $Authorization.Url -Uri "wp-json/wp/v2/posts/$Id" -QueryParameter $QueryParameters -Headers $Authorization.Header -Method POST
+    if ($QueryParameters.Keys.Count -gt 0 -or $BodyParameters.Keys.Count -gt 0) {
+        $invokeWordpressRestApiSplat = @{
+            PrimaryUri     = $Authorization.Url
+            Uri            = "wp-json/wp/v2/posts/$Id"
+            Body           = $BodyParameters
+            Headers        = $Authorization.Header
+            Method         = 'POST'
+            QueryParameter = $QueryParameters
+        }
+
+        Invoke-WordpressRestApi @invokeWordpressRestApiSplat
     } else {
         Write-Warning "Set-WordPressPost - parameters not provided. Skipping."
     }
