@@ -1,6 +1,6 @@
 ﻿<p align="center">
   <a href="https://www.powershellgallery.com/packages/PSWordPress"><img src="https://img.shields.io/powershellgallery/v/PSWordPress.svg?style=flat-square"></a>
-  <a href="https://www.powershellgallery.com/packages/PSWordPress"><img src="https://img.shields.io/powershellgallery/vpre/PSWordPress.svg?label=powershell%20gallery%20preview&colorB=yellow&style=flat-square"></a>
+  <a href="https://www.powershellgallery.com/packages/PSWordPress"><img src="https://img.shields.io/powershellgallery/v/PSWordPress.svg?label=powershell%20gallery%20preview&colorB=yellow&style=flat-square&include_prereleases"></a>
   <a href="https://github.com/EvotecIT/PSWordPress"><img src="https://img.shields.io/github/license/EvotecIT/PSWordPress.svg?style=flat-square"></a>
 </p>
 
