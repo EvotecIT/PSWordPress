@@ -44,7 +44,12 @@
                         $Result = $Response.Content | ConvertFrom-Json
                         $AllResults += $Result
                         if (-not $TotalPages) {
-                            $TotalPages = [int]$Response.Headers['X-WP-TotalPages']
+                            $TotalPagesHeader = @($Response.Headers['X-WP-TotalPages']) | Select-Object -First 1
+                            if ([string]::IsNullOrWhiteSpace($TotalPagesHeader)) {
+                                $TotalPages = 1
+                            } else {
+                                $TotalPages = [int]$TotalPagesHeader
+                            }
                             #Write-Verbose "Invoke-WordpressRestApi - Total pages to retrieve: $TotalPages"
                         }
                         Write-Verbose "Invoke-WordpressRestApi - Querying $($RestSplat.Uri) method $Method [Retrieved page $Page of $TotalPages]"
@@ -84,7 +89,9 @@
             } else {
                 Write-Warning $_.Exception.Message
             }
-            if ($Method -ne 'GET', 'POST') {
+            if ($Method -in @('GET', 'POST')) {
+                return @()
+            } else {
                 return $false
             }
         }
